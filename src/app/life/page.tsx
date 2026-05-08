@@ -10,6 +10,7 @@ import {
 } from "@/components/section";
 import { VideoCard } from "@/components/video-card";
 import { PhotoStrip } from "@/components/photo-strip";
+import { MusicList } from "@/components/music-player";
 
 const hobbies = [
   {
@@ -164,15 +165,6 @@ const countries: CountryData[] = [
       "Home base — where the laptop sleeps and IndustrialMind.ai code gets shipped.",
     accent: "accent",
   },
-];
-
-const rockTracks = [
-  { artist: "Pink Floyd", track: "Comfortably Numb", album: "The Wall · 1979", note: "The guitar solo I can&rsquo;t skip." },
-  { artist: "Radiohead", track: "Paranoid Android", album: "OK Computer · 1997", note: "Three songs in one." },
-  { artist: "Led Zeppelin", track: "Kashmir", album: "Physical Graffiti · 1975", note: "Riff that sounds like a desert." },
-  { artist: "Queen", track: "Bohemian Rhapsody", album: "A Night at the Opera · 1975", note: "Operatic chaos, lovingly built." },
-  { artist: "The Beatles", track: "While My Guitar Gently Weeps", album: "The White Album · 1968", note: "Harrison + Clapton." },
-  { artist: "Nirvana", track: "Smells Like Teen Spirit", album: "Nevermind · 1991", note: "The riff that ended the 80s." },
 ];
 
 export default function LifePage() {
@@ -374,30 +366,14 @@ export default function LifePage() {
             ))}
           </div>
 
-          {/* Track list */}
+          {/* Track list — clickable, opens an inline YouTube player */}
           <div>
             <p className="text-muted leading-relaxed mb-6">
               Live shows, late-night sessions, riffs that built the taste. A
-              curated, opinionated list — not exhaustive.
+              curated, opinionated list — not exhaustive.{" "}
+              <span className="text-accent-deep">Click any track to play.</span>
             </p>
-            <div className="space-y-2">
-              {rockTracks.map((t, i) => (
-                <FadeIn key={t.track} delay={i * 0.04}>
-                  <div className="lift-card group flex items-center gap-4 p-4 rounded-xl border border-border bg-background hover:border-accent">
-                    <div className="size-10 shrink-0 rounded-full bg-accent-soft border border-accent grid place-items-center text-accent-deep group-hover:bg-accent group-hover:text-background transition-colors">
-                      ▶
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-baseline justify-between gap-3">
-                        <span className="font-serif text-lg truncate">{t.track}</span>
-                        <span className="text-xs text-muted-2 font-mono shrink-0">{t.album.split(" · ")[1]}</span>
-                      </div>
-                      <div className="text-xs text-muted">{t.artist}</div>
-                    </div>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
+            <MusicList />
           </div>
         </div>
 
