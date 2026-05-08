@@ -99,10 +99,10 @@ export default function WorkPage() {
           </div>
           <div className="grid sm:grid-cols-5 gap-3">
             {[
-              ["弈宸", "Math-driven engineering"],
-              ["天阙", "Inside-the-model control"],
-              ["赋风", "Algorithm at system scale"],
-              ["天枢", "Inference performance"],
+              ["Yichen", "Math-driven engineering"],
+              ["Tianque", "Inside-the-model control"],
+              ["Fufeng", "Algorithm at system scale"],
+              ["Tianshu", "Inference performance"],
               ["IM", "LLM-driven engineering"],
             ].map(([k, v], i) => (
               <div key={k} className="relative p-4 rounded-lg bg-background border border-border">

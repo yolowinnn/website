@@ -5,11 +5,11 @@ import {
   FadeIn,
   Magnetic,
   Marquee,
-  WordReveal,
   Counter,
   Parallax,
   ImageReveal,
 } from "@/components/section";
+import { HeroHeading } from "@/components/hero-heading";
 
 const stats = [
   { v: 24.2, suffix: "%", label: "Post-cost annualized α", sub: "Crypto perpetuals · 569 universe", color: "green" },
@@ -19,21 +19,19 @@ const stats = [
 ];
 
 const marqueeWords = [
-  "Multimodal LLM",
-  "Vertex AI",
-  "vLLM",
-  "Quantitative Finance",
-  "Vision-Native RAG",
-  "iTransformer",
-  "MAPPO",
-  "Genetic Programming",
-  "Diffusion Models",
-  "Agent-in-Container",
-  "Plan + AGENTS",
-  "FlashAttention-3",
+  "Multimodal LLM", "Vertex AI", "vLLM", "Quantitative Finance",
+  "Vision-Native RAG", "iTransformer", "MAPPO", "Genetic Programming",
+  "Diffusion Models", "Agent-in-Container", "Plan + AGENTS", "FlashAttention-3",
 ];
 
 const marqueeCities = ["Bali", "Phuket", "Chiang Mai", "Yunnan", "Bromo", "Singapore", "Kuala Lumpur", "Hong Kong", "Shanghai", "Paris ↗"];
+
+const focusItems = [
+  { title: "Multimodal & VLM", body: "Qwen3-VL / Qwen2.5-VL-72B end-to-end pipelines, Vision-Native RAG, Agent-in-Container deployment for industrial drawings.", href: "/work", icon: "🎯" },
+  { title: "Inference Engineering", body: "vLLM kernel-level optimization, PagedAttention, Speculative Decoding, FP8/INT4 quantization at production latency.", href: "/skills", icon: "⚡" },
+  { title: "Quant Research", body: "GP-based factor mining, iTransformer + GNN, MAPPO trading, crypto perpetual low-vol + VoV factor research.", href: "/quant", icon: "📈" },
+  { title: "Cloud Systems", body: "Vertex AI custom training, Vercel Serverless task queues, Postgres SKIP LOCKED + Cron heartbeat for long-running jobs.", href: "/projects", icon: "☁️" },
+];
 
 export default function Home() {
   return (
@@ -44,8 +42,8 @@ export default function Home() {
         <div className="sun-blob bg-accent-soft" style={{ width: 600, height: 600, top: -200, right: -150 }} />
         <div className="sun-blob bg-green-soft" style={{ width: 400, height: 400, top: 200, left: -100 }} />
 
-        <Container className="relative pt-20 lg:pt-28 pb-24 lg:pb-32">
-          <div className="grid lg:grid-cols-[1.4fr_1fr] gap-10 lg:gap-16 items-center">
+        <Container className="relative pt-20 lg:pt-28 pb-20 lg:pb-28">
+          <div className="grid lg:grid-cols-[1.5fr_1fr] gap-10 lg:gap-16 items-center">
             <div>
               <FadeIn>
                 <div className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-border bg-background-elev/60 backdrop-blur-sm">
@@ -56,20 +54,10 @@ export default function Home() {
                 </div>
               </FadeIn>
 
-              <h1 className="font-serif text-[14vw] sm:text-7xl lg:text-[7.5rem] leading-[0.9] tracking-tight">
-                <span className="block overflow-hidden">
-                  <WordReveal text="Hi, I'm" />
-                </span>
-                <span className="block italic gradient-text">
-                  <WordReveal text="Jiawei Li" delay={0.15} />
-                </span>
-                <span className="block text-muted text-[8vw] sm:text-5xl lg:text-6xl mt-2 not-italic">
-                  <WordReveal text="AI × Quant Engineer." delay={0.35} />
-                </span>
-              </h1>
+              <HeroHeading />
 
               <FadeIn delay={0.55}>
-                <p className="mt-10 text-lg text-muted max-w-xl leading-relaxed">
+                <p className="mt-8 text-lg text-muted max-w-xl leading-relaxed">
                   From{" "}
                   <span className="text-accent-deep font-medium">millisecond alpha factors</span>{" "}
                   to{" "}
@@ -95,7 +83,7 @@ export default function Home() {
                     <Link
                       href="/contact"
                       data-magnetic
-                      className="group inline-flex items-center justify-between gap-4 px-6 py-4 rounded-full border-[1.5px] border-foreground/30 hover:bg-foreground/[0.04] hover:border-accent transition-all"
+                      className="group inline-flex items-center justify-between gap-4 px-6 py-4 rounded-full border-[1.5px] border-foreground/25 hover:bg-foreground/[0.04] hover:border-accent transition-all"
                     >
                       <span className="text-sm">Get in touch</span>
                       <span className="font-mono text-sm">↗</span>
@@ -117,18 +105,16 @@ export default function Home() {
                     priority
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/30 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-foreground/25 via-transparent to-transparent pointer-events-none" />
                 </ImageReveal>
               </Parallax>
 
-              {/* Decorative dots */}
               <div className="absolute -top-4 -right-4 size-20 rounded-full border-[1.5px] border-accent border-dashed spin-slow opacity-60" />
               <div className="absolute -bottom-3 -left-3 size-12 rounded-full bg-green/30 float" />
 
-              {/* Floating chip */}
-              <div className="absolute -bottom-4 right-4 lg:right-8 px-4 py-3 rounded-2xl bg-background border border-border-strong shadow-xl float">
+              <div className="absolute -bottom-5 right-4 lg:right-6 px-4 py-3 rounded-2xl bg-background border border-border-strong shadow-xl float">
                 <div className="text-[10px] font-mono text-muted-2 uppercase tracking-widest">Currently</div>
-                <div className="text-sm mt-0.5 font-medium">Shanghai · 上海</div>
+                <div className="text-sm mt-0.5 font-medium">Shanghai</div>
                 <div className="text-xs text-green-deep mt-1 font-mono">Paris · Fall 2026 →</div>
               </div>
             </FadeIn>
@@ -168,11 +154,18 @@ export default function Home() {
                 green: "text-green-deep",
                 rose: "text-rose",
               }[s.color];
+              const blobBg = {
+                accent: "var(--accent-soft)",
+                green: "var(--green-soft)",
+                rose: "var(--peach)",
+              }[s.color];
               return (
                 <FadeIn key={s.label} delay={i * 0.06}>
-                  <div className="lift-card relative p-6 rounded-2xl border border-border bg-background overflow-hidden">
-                    <div className="absolute top-0 right-0 size-24 rounded-full opacity-30 blur-2xl"
-                         style={{ backgroundColor: s.color === "accent" ? "var(--accent-soft)" : s.color === "green" ? "var(--green-soft)" : "var(--peach)" }} />
+                  <div className="lift-card relative p-6 rounded-2xl border border-border bg-background overflow-hidden h-full">
+                    <div
+                      className="absolute top-0 right-0 size-24 rounded-full opacity-30 blur-2xl"
+                      style={{ backgroundColor: blobBg }}
+                    />
                     <div className={`relative font-serif text-5xl lg:text-6xl ${colorClasses}`}>
                       <Counter to={s.v} suffix={s.suffix ?? ""} decimals={s.decimals ?? (s.v < 10 ? 1 : 0)} />
                     </div>
@@ -198,36 +191,7 @@ export default function Home() {
             </div>
 
             <div className="grid sm:grid-cols-2 gap-3">
-              {[
-                {
-                  title: "Multimodal & VLM",
-                  body: "Qwen3-VL / Qwen2.5-VL-72B end-to-end pipelines, Vision-Native RAG, Agent-in-Container deployment for industrial drawings.",
-                  href: "/work",
-                  icon: "🎯",
-                  tone: "accent",
-                },
-                {
-                  title: "Inference Engineering",
-                  body: "vLLM kernel-level optimization, PagedAttention, Speculative Decoding, FP8/INT4 quantization at production latency.",
-                  href: "/skills",
-                  icon: "⚡",
-                  tone: "green",
-                },
-                {
-                  title: "Quant Research",
-                  body: "GP-based factor mining, iTransformer + GNN, MAPPO trading, crypto perpetual low-vol + VoV factor research.",
-                  href: "/quant",
-                  icon: "📈",
-                  tone: "rose",
-                },
-                {
-                  title: "Cloud Systems",
-                  body: "Vertex AI custom training, Vercel Serverless task queues, Postgres SKIP LOCKED + Cron heartbeat for long-running jobs.",
-                  href: "/projects",
-                  icon: "☁️",
-                  tone: "accent",
-                },
-              ].map((it, i) => (
+              {focusItems.map((it, i) => (
                 <FadeIn key={it.title} delay={i * 0.05}>
                   <Link
                     href={it.href}
@@ -249,14 +213,12 @@ export default function Home() {
         </Container>
       </section>
 
-      {/* CITY MARQUEE — feel of travel */}
+      {/* CITY MARQUEE */}
       <section className="py-12">
         <Marquee speed="fast" reverse>
           {marqueeCities.map((c) => (
             <span key={c} className="inline-flex items-center gap-12">
-              <span className="font-serif text-2xl lg:text-3xl italic text-muted">
-                {c}
-              </span>
+              <span className="font-serif text-2xl lg:text-3xl italic text-muted">{c}</span>
               <span className="size-2 rounded-full bg-green" />
             </span>
           ))}
@@ -288,7 +250,7 @@ export default function Home() {
                       data-magnetic
                       className="group flex items-center justify-between p-5 rounded-2xl border-[1.5px] border-foreground/15 bg-background/70 hover:border-accent hover:bg-background transition-all"
                     >
-                      <span className="text-sm font-medium">旅居 · 户外 · 音乐</span>
+                      <span className="text-sm font-medium">Nomad · Outdoors · Music</span>
                       <span className="font-mono text-accent-deep group-hover:translate-x-1 transition-transform">→</span>
                     </Link>
                   </Magnetic>

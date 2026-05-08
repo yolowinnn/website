@@ -151,7 +151,7 @@ export default function ContactPage() {
               </h3>
               <a
                 href="mailto:ljw2556826312@gmail.com?subject=Hi%20Jiawei"
-                className="mt-8 inline-flex items-center gap-3 px-6 py-4 rounded-xl bg-accent text-black hover:bg-accent-soft transition-colors font-medium"
+                className="mt-8 inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-foreground text-background hover:bg-accent-deep transition-colors font-medium"
               >
                 ljw2556826312@gmail.com
                 <span className="font-mono">→</span>

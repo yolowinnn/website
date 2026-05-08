@@ -87,7 +87,7 @@ export default function SkillsPage() {
           />
           <Tags
             label="Collaboration"
-            items={["Cursor", "GitHub", "Label Studio", "飞书 Lark", "Notion", "Obsidian"]}
+            items={["Cursor", "GitHub", "Label Studio", "Lark", "Notion", "Obsidian"]}
           />
         </div>
       </section>

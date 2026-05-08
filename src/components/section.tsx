@@ -2,36 +2,60 @@
 
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useSpring,
   useTransform,
-  useInView,
+  useReducedMotion,
 } from "framer-motion";
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+/* useOnScreen — robust IntersectionObserver hook */
+function useOnScreen<T extends Element>(
+  ref: React.RefObject<T | null>,
+  rootMargin = "0px"
+) {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight && r.bottom > 0) {
+      const id = requestAnimationFrame(() => setVisible(true));
+      return () => cancelAnimationFrame(id);
+    }
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          obs.disconnect();
+        }
+      },
+      { rootMargin, threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [ref, rootMargin]);
+  return visible;
+}
+
+/* FadeIn — pure CSS keyframe animation, runs on mount */
 export function FadeIn({
   children,
   delay = 0,
   className = "",
-  y = 16,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
   y?: number;
 }) {
-  const reduce = useReducedMotion();
   return (
-    <motion.div
-      initial={reduce ? { opacity: 1 } : { opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+    <div
+      style={{ animationDelay: `${delay}s` }}
+      className={`fade-up ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -87,7 +111,7 @@ export function SectionTitle({
   );
 }
 
-/* Magnetic — element subtly follows cursor */
+/* Magnetic — element subtly follows cursor (still uses framer for spring) */
 export function Magnetic({
   children,
   strength = 0.3,
@@ -139,7 +163,11 @@ export function Parallax({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [`${speed * 100}%`, `${-speed * 100}%`]);
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    [`${speed * 100}%`, `${-speed * 100}%`]
+  );
   return (
     <div ref={ref} className={className}>
       <motion.div style={{ y }}>{children}</motion.div>
@@ -147,7 +175,7 @@ export function Parallax({
   );
 }
 
-/* Marquee — infinite horizontal scroll */
+/* Marquee */
 export function Marquee({
   children,
   speed = "normal",
@@ -161,7 +189,11 @@ export function Marquee({
 }) {
   return (
     <div className={`overflow-hidden ${className}`}>
-      <div className={`marquee ${speed === "fast" ? "fast" : ""} ${reverse ? "reverse" : ""}`}>
+      <div
+        className={`marquee ${speed === "fast" ? "fast" : ""} ${
+          reverse ? "reverse" : ""
+        }`}
+      >
         <div className="flex shrink-0 items-center gap-12 pr-12">{children}</div>
         <div className="flex shrink-0 items-center gap-12 pr-12" aria-hidden>
           {children}
@@ -171,7 +203,7 @@ export function Marquee({
   );
 }
 
-/* Animated counter from 0 to N when in view */
+/* Counter — eased ramp on scroll-into-view */
 export function Counter({
   to,
   suffix = "",
@@ -188,12 +220,12 @@ export function Counter({
   decimals?: number;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const visible = useOnScreen(ref);
   const [val, setVal] = useState(0);
   const reduce = useReducedMotion();
 
   useEffect(() => {
-    if (!inView) return;
+    if (!visible) return;
     if (reduce) {
       setVal(to);
       return;
@@ -209,7 +241,7 @@ export function Counter({
     };
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
-  }, [inView, to, duration, reduce]);
+  }, [visible, to, duration, reduce]);
 
   return (
     <span ref={ref} className={className}>
@@ -236,29 +268,27 @@ export function ScrollProgress() {
   );
 }
 
-/* Reveal mask — clip-path image entrance */
+/* ImageReveal — pure CSS keyframe animation; always runs on mount */
 export function ImageReveal({
   children,
   className = "",
+  delay = 0,
 }: {
   children: ReactNode;
   className?: string;
+  delay?: number;
 }) {
-  const reduce = useReducedMotion();
   return (
-    <motion.div
-      initial={reduce ? {} : { clipPath: "inset(0 100% 0 0)" }}
-      whileInView={{ clipPath: "inset(0 0% 0 0)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
+    <div
+      style={{ animationDelay: `${delay}s` }}
+      className={`clip-reveal ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
-/* Word-by-word reveal heading */
+/* WordReveal — pure CSS word-by-word */
 export function WordReveal({
   text,
   className = "",
@@ -268,26 +298,29 @@ export function WordReveal({
   className?: string;
   delay?: number;
 }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const visible = useOnScreen(ref);
   const reduce = useReducedMotion();
   const words = text.split(" ");
   return (
-    <span className={className}>
+    <span ref={ref} className={className}>
       {words.map((w, i) => (
         <span key={i} className="inline-block overflow-hidden align-bottom">
-          <motion.span
+          <span
             className="inline-block"
-            initial={reduce ? {} : { y: "120%" }}
-            whileInView={{ y: 0 }}
-            viewport={{ once: true }}
-            transition={{
-              duration: 0.7,
-              delay: delay + i * 0.06,
-              ease: [0.22, 1, 0.36, 1],
+            style={{
+              transform:
+                reduce || visible ? "translateY(0)" : "translateY(120%)",
+              transition: reduce
+                ? "none"
+                : `transform 700ms cubic-bezier(0.22, 1, 0.36, 1) ${
+                    delay + i * 0.06
+                  }s`,
             }}
           >
             {w}
             {i < words.length - 1 ? " " : ""}
-          </motion.span>
+          </span>
         </span>
       ))}
     </span>
