@@ -3,6 +3,8 @@ import { Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { ScrollProgress } from "@/components/section";
+import { CursorHalo } from "@/components/cursor-halo";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -46,6 +48,8 @@ export default function RootLayout({
       className={`${inter.variable} ${instrumentSerif.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background text-foreground">
+        <ScrollProgress />
+        <CursorHalo />
         <Nav />
         <main className="flex-1">{children}</main>
         <Footer />

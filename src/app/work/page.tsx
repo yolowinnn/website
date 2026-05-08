@@ -205,7 +205,7 @@ export default function WorkPage() {
                 <div key={k} className="p-4 rounded-lg bg-background border border-border">
                   <div className="text-xs text-muted-2 font-mono">{k}</div>
                   <div className="font-serif text-3xl mt-1">{v}</div>
-                  <div className="text-xs text-emerald-400 font-mono mt-1">AUC {d} vs SOTA</div>
+                  <div className="text-xs text-green-deep font-mono mt-1">AUC {d} vs SOTA</div>
                 </div>
               ))}
             </div>

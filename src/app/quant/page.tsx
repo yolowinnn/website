@@ -101,10 +101,12 @@ export default function QuantPage() {
             <div className="text-xs font-mono text-accent uppercase tracking-widest">
               Composite signal
             </div>
-            <pre className="mt-4 p-5 rounded-lg bg-black/40 border border-border overflow-x-auto text-xs leading-relaxed">
-              <code className="font-mono text-foreground/90">{`signal_lowvol = (vol_004 + vol_001b + rev_002 + rev_004) / 4   # PC1 equivalent
-signal_vov    = vol_005                                         # 2nd-order independent signal
-composite     = cs_zscore(signal_lowvol + 0.5 * cs_zscore(signal_vov))`}</code>
+            <pre className="mt-4 p-5 rounded-lg bg-foreground text-background border border-border-strong overflow-x-auto text-xs leading-relaxed">
+              <code className="font-mono">
+                <span className="text-green-soft">signal_lowvol</span> = (<span className="text-accent-soft">vol_004 + vol_001b + rev_002 + rev_004</span>) / 4   <span className="text-muted-2"># PC1 equivalent</span>
+{"\n"}<span className="text-green-soft">signal_vov</span>    = <span className="text-accent-soft">vol_005</span>                                         <span className="text-muted-2"># 2nd-order independent signal</span>
+{"\n"}<span className="text-green-soft">composite</span>     = cs_zscore(signal_lowvol + 0.5 * cs_zscore(signal_vov))
+              </code>
             </pre>
             <div className="mt-6 grid sm:grid-cols-2 gap-4">
               <div className="text-sm text-muted leading-relaxed">

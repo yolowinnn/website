@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const links = [
   { href: "/about", label: "About" },
@@ -30,18 +31,15 @@ export function Nav() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "backdrop-blur-xl bg-background/70 border-b border-border"
+          ? "backdrop-blur-xl bg-background/75 border-b border-border"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="group flex items-center gap-2.5">
-          <span className="size-7 rounded-md bg-gradient-to-br from-accent to-accent-soft flex items-center justify-center text-black font-serif text-sm font-semibold">
-            J
-          </span>
-          <span className="font-serif text-lg tracking-tight">
-            Jiawei <span className="text-muted">Li</span>
-          </span>
+        <Link href="/" className="group flex items-baseline gap-1.5 grow-line">
+          <span className="font-serif text-xl tracking-tight italic">Jiawei</span>
+          <span className="font-serif text-xl tracking-tight">Li</span>
+          <span className="ml-2 size-1.5 rounded-full bg-accent translate-y-[-1px]" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-1">
@@ -51,13 +49,22 @@ export function Nav() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`px-3 py-1.5 text-sm rounded-md transition-colors ${
-                  active
-                    ? "text-foreground bg-white/[0.06]"
-                    : "text-muted hover:text-foreground hover:bg-white/[0.04]"
-                }`}
+                className="relative px-3 py-1.5 text-sm rounded-full transition-colors"
               >
-                {l.label}
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-foreground"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+                <span
+                  className={`relative ${
+                    active ? "text-background" : "text-muted hover:text-foreground"
+                  }`}
+                >
+                  {l.label}
+                </span>
               </Link>
             );
           })}
@@ -65,7 +72,7 @@ export function Nav() {
 
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden size-9 grid place-items-center rounded-md hover:bg-white/[0.06]"
+          className="md:hidden size-9 grid place-items-center rounded-md hover:bg-foreground/[0.06]"
           aria-label="Toggle menu"
         >
           <span className="block w-4 h-px bg-foreground relative">
@@ -75,24 +82,32 @@ export function Nav() {
         </button>
       </div>
 
-      {open && (
-        <div className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl">
-          <div className="px-6 py-3 flex flex-col">
-            {links.map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className={`py-2.5 text-sm ${
-                  pathname === l.href ? "text-foreground" : "text-muted"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl overflow-hidden"
+          >
+            <div className="px-6 py-3 flex flex-col">
+              {links.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className={`py-2.5 text-sm ${
+                    pathname === l.href ? "text-foreground" : "text-muted"
+                  }`}
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
