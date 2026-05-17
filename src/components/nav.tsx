@@ -35,21 +35,21 @@ export function Nav() {
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-6xl mx-auto px-6 lg:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="group flex items-baseline gap-1.5 grow-line">
-          <span className="font-serif text-xl tracking-tight italic">Jiawei</span>
-          <span className="font-serif text-xl tracking-tight">Li</span>
-          <span className="ml-2 size-1.5 rounded-full bg-accent translate-y-[-1px]" />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+        <Link href="/" className="group flex items-baseline gap-2 grow-line">
+          <span className="font-serif text-2xl tracking-tight italic">Jiawei</span>
+          <span className="font-serif text-2xl tracking-tight">Li</span>
+          <span className="ml-2 size-2 rounded-full bg-accent translate-y-[-1px]" />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-1">
+        <nav className="hidden md:flex items-center gap-1.5">
           {links.map((l) => {
             const active = pathname === l.href;
             return (
               <Link
                 key={l.href}
                 href={l.href}
-                className="relative px-3 py-1.5 text-sm rounded-full transition-colors"
+                className="relative px-4 py-2 text-base rounded-full transition-colors"
               >
                 {active && (
                   <motion.span
@@ -72,12 +72,12 @@ export function Nav() {
 
         <button
           onClick={() => setOpen(!open)}
-          className="md:hidden size-9 grid place-items-center rounded-md hover:bg-foreground/[0.06]"
+          className="md:hidden size-10 grid place-items-center rounded-md hover:bg-foreground/[0.06]"
           aria-label="Toggle menu"
         >
-          <span className="block w-4 h-px bg-foreground relative">
-            <span className="absolute -top-1.5 left-0 w-4 h-px bg-foreground" />
-            <span className="absolute top-1.5 left-0 w-4 h-px bg-foreground" />
+          <span className="block w-5 h-px bg-foreground relative">
+            <span className="absolute -top-2 left-0 w-5 h-px bg-foreground" />
+            <span className="absolute top-2 left-0 w-5 h-px bg-foreground" />
           </span>
         </button>
       </div>
@@ -91,13 +91,13 @@ export function Nav() {
             transition={{ duration: 0.25 }}
             className="md:hidden border-t border-border bg-background/95 backdrop-blur-xl overflow-hidden"
           >
-            <div className="px-6 py-3 flex flex-col">
+            <div className="px-6 py-4 flex flex-col">
               {links.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className={`py-2.5 text-sm ${
+                  className={`py-3 text-base ${
                     pathname === l.href ? "text-foreground" : "text-muted"
                   }`}
                 >
